@@ -4,17 +4,27 @@
   <meta charset="utf-8">
   
   
-  <title>日之呼吸</title>
+  <title>高并发缓存三问-穿透、击穿、雪崩 | 日之呼吸</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="记录生活">
-<meta property="og:type" content="website">
-<meta property="og:title" content="日之呼吸">
-<meta property="og:url" content="http://example.com/index.html">
+  <meta name="description" content="今天聊一下面试的经典问题，缓存穿透，缓存击穿与缓存雪崩。 缓存穿透、缓存击穿、缓存雪崩的总结   名称 定义 发生场景 避免的手段    缓存穿透 请求的key在缓存和数据库中都不存在，导致请求直接打在数据库上 有大量不存在的key被请求，可能是黑客攻击 使用布隆过滤器或者把无效的key存进缓存   缓存击穿 请求的key是一个热点key，当这个key失效时，有大量并发请求打在数据库上 热点key">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高并发缓存三问-穿透、击穿、雪崩">
+<meta property="og:url" content="http://example.com/2023/07/07/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9/index.html">
 <meta property="og:site_name" content="日之呼吸">
-<meta property="og:description" content="记录生活">
+<meta property="og:description" content="今天聊一下面试的经典问题，缓存穿透，缓存击穿与缓存雪崩。 缓存穿透、缓存击穿、缓存雪崩的总结   名称 定义 发生场景 避免的手段    缓存穿透 请求的key在缓存和数据库中都不存在，导致请求直接打在数据库上 有大量不存在的key被请求，可能是黑客攻击 使用布隆过滤器或者把无效的key存进缓存   缓存击穿 请求的key是一个热点key，当这个key失效时，有大量并发请求打在数据库上 热点key">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2023/07/07/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9%5C%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F.png">
+<meta property="og:image" content="http://example.com/2023/07/07/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9%5C%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8-%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F.png">
+<meta property="og:image" content="http://example.com/2023/07/07/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9%5Cimage.png">
+<meta property="og:image" content="http://example.com/2023/07/07/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9%5Cimage2.png">
+<meta property="og:image" content="http://example.com/2023/07/07/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9/image-1.png">
+<meta property="og:image" content="http://example.com/2023/07/07/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9/image-3.png">
+<meta property="article:published_time" content="2023-07-07T02:11:45.000Z">
+<meta property="article:modified_time" content="2023-07-07T06:52:12.313Z">
 <meta property="article:author" content="zex">
+<meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/07/07/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9%5C%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F.png">
   
     <link rel="alternate" href="/atom.xml" title="日之呼吸" type="application/atom+xml">
   
@@ -73,9 +83,7 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-高并发缓存三问-穿透、击穿、雪崩" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-高并发缓存三问-穿透、击穿、雪崩" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/07/07/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9/" class="article-date">
   <time class="dt-published" datetime="2023-07-07T02:11:45.000Z" itemprop="datePublished">2023-07-07</time>
@@ -92,8 +100,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/07/07/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9/">高并发缓存三问-穿透、击穿、雪崩</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      高并发缓存三问-穿透、击穿、雪崩
     </h1>
   
 
@@ -194,95 +202,19 @@
     </footer>
   </div>
   
-</article>
-
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-CodeWhisperer自动编程的插件试玩" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/07/06/CodeWhisperer%E8%87%AA%E5%8A%A8%E7%BC%96%E7%A8%8B%E7%9A%84%E6%8F%92%E4%BB%B6%E8%AF%95%E7%8E%A9/" class="article-date">
-  <time class="dt-published" datetime="2023-07-06T08:00:57.000Z" itemprop="datePublished">2023-07-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/07/06/CodeWhisperer%E8%87%AA%E5%8A%A8%E7%BC%96%E7%A8%8B%E7%9A%84%E6%8F%92%E4%BB%B6%E8%AF%95%E7%8E%A9/">CodeWhisperer自动编程的插件试玩</a>
-    </h1>
+    <a href="/2023/07/06/CodeWhisperer%E8%87%AA%E5%8A%A8%E7%BC%96%E7%A8%8B%E7%9A%84%E6%8F%92%E4%BB%B6%E8%AF%95%E7%8E%A9/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">CodeWhisperer自动编程的插件试玩</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="安装试用一下自动编程软件"><a href="#安装试用一下自动编程软件" class="headerlink" title="安装试用一下自动编程软件"></a>安装试用一下自动编程软件</h1><p>程序员实现面向注释编程不是梦</p>
-<h1 id="Copilot-vs-CodeWhisperer"><a href="#Copilot-vs-CodeWhisperer" class="headerlink" title="Copilot vs CodeWhisperer"></a>Copilot vs CodeWhisperer</h1><p>Copilot和CodeWhisperer都是基于AI的编程辅助工具，它们可以根据开发者的注释或输入，自动提供代码建议。它们有很多相似之处，但也有一些不同之处，这些不同之处可能会影响你选择使用哪一个工具。下面是一个简单的对比表格，列举了它们的一些主要特点和区别。</p>
-<table>
-<thead>
-<tr>
-<th>Copilot</th>
-<th>CodeWhisperer</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>由GitHub（属于微软）开发，于2021年6月发布测试版，2022年6月正式上线</td>
-<td>由亚马逊开发，于2022年6月发布测试版</td>
-</tr>
-<tr>
-<td>基于OpenAI Codex模型，该模型是一个大规模的神经网络，可以生成自然语言和代码</td>
-<td>基于亚马逊内部的AI模型，该模型的细节尚未公开</td>
-</tr>
-<tr>
-<td>使用公开的源代码库进行训练，包括GitHub上的数十亿行代码</td>
-<td>使用公开和私有的源代码库进行训练，包括亚马逊内部的代码</td>
-</tr>
-<tr>
-<td>支持多种编程语言和框架，目前优化了Python, JavaScript, TypeScript, Ruby, Go, C#, C++等语言</td>
-<td>Python、Java、JavaScript、TypeScript、C#、Rust、Go、Ruby、Scala、Kotlin、PHP、C、C++、Shell 脚本编写、SQL。</td>
-</tr>
-<tr>
-<td>支持多种IDE，如Visual Studio, Neovim, VS Code, JetBrains等，也可以在网页上使用</td>
-<td>目前，仅在适用于 Python、Java 和 JavaScript 的 VS Code 和 JetBrains IDE 中支持代码安全扫描。</td>
-</tr>
-<tr>
-<td>收费10美元&#x2F;月或100美元&#x2F;年，学生和开源项目贡献者可免费使用</td>
-<td>个人免费使用，企业与专业版许付费</td>
-</tr>
-</tbody></table>
-<p>总的来说，Copilot是一个更通用的AI编程辅助工具，而CodeWhisperer是一个更专注于AWS平台的工具。你可以根据你的需求和喜好来选择使用哪一个工具。</p>
-<h1 id="Copilot"><a href="#Copilot" class="headerlink" title="Copilot"></a>Copilot</h1><p>Copilot 可以免费试用30天，但是需要绑定信用卡，想想还是算了。可以用，但是没必要。</p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://github.com/features/copilot">https://github.com/features/copilot</a></p>
-</blockquote>
-<h1 id="CodeWhisperer"><a href="#CodeWhisperer" class="headerlink" title="CodeWhisperer"></a>CodeWhisperer</h1><p>这个目前是免费的，注册一下玩玩。</p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://aws.amazon.com/cn/codewhisperer/resources/#Getting_started">https://aws.amazon.com/cn/codewhisperer/resources/#Getting_started</a></p>
-</blockquote>
-<p>在IDEA插件市场搜索，aws。然后选择AWS Toolkit进行安装<br><img src="/2023/07/06/CodeWhisperer%E8%87%AA%E5%8A%A8%E7%BC%96%E7%A8%8B%E7%9A%84%E6%8F%92%E4%BB%B6%E8%AF%95%E7%8E%A9/image.png" alt="Alt text"><br>安装完成之后，侧边会显示aws图标。然后会提示你进行登录<br><img src="/2023/07/06/CodeWhisperer%E8%87%AA%E5%8A%A8%E7%BC%96%E7%A8%8B%E7%9A%84%E6%8F%92%E4%BB%B6%E8%AF%95%E7%8E%A9/image-2.png" alt="Alt text"><br>选择复制编码登录，然后粘贴复制的编码，创建账号<br><img src="/2023/07/06/CodeWhisperer%E8%87%AA%E5%8A%A8%E7%BC%96%E7%A8%8B%E7%9A%84%E6%8F%92%E4%BB%B6%E8%AF%95%E7%8E%A9/image-3.png" alt="Alt text"><br>这里会有一个邮箱的验证码认证，验证成功之后，可以重新打开IDEA窗口，然后就可以启动CodeWhisperer了<br><img src="/2023/07/06/CodeWhisperer%E8%87%AA%E5%8A%A8%E7%BC%96%E7%A8%8B%E7%9A%84%E6%8F%92%E4%BB%B6%E8%AF%95%E7%8E%A9/image-4.png" alt="Alt text"><br>使用了一下，感觉有些卡顿。人机交互的感觉不是很好。AI不是很懂我的样子。可以实现一些简单的日常的算法。能提高一些开发效率。多多少少可以挽救几根头发。对于写代码不喜欢加注释的童鞋，是一个好的工具</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/07/06/CodeWhisperer%E8%87%AA%E5%8A%A8%E7%BC%96%E7%A8%8B%E7%9A%84%E6%8F%92%E4%BB%B6%E8%AF%95%E7%8E%A9/" data-id="cljs80af40000u8i75gd57ul0" data-title="CodeWhisperer自动编程的插件试玩" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
-
-
-
-  
 
 
 </section>
