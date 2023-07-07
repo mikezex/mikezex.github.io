@@ -133,9 +133,9 @@
 <h2 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h2><blockquote>
 <p>大量Redis与数据库中匹配不到的key进行请求。导致数据库压力过大，打死。</p>
 </blockquote>
-<p><img src="/2023/07/07/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9%5C%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F.png" alt="Alt text"></p>
+<p><img src="/2023/07/07/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9/%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F.png" alt="Alt text"></p>
 <h3 id="预防措施"><a href="#预防措施" class="headerlink" title="预防措施"></a>预防措施</h3><blockquote>
-<p>方案一：进行添加布隆过滤器,布隆过滤器会将匹配不到的key直接返回。因为布隆过滤器的存储和判断机制，对判断某一个key一定存在有一定的误判率，无法做到百分之百的精准匹配。所以需要根据场景使用。<br><img src="/2023/07/07/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9%5C%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8-%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F.png" alt="Alt text"></p>
+<p>方案一：进行添加布隆过滤器,布隆过滤器会将匹配不到的key直接返回。因为布隆过滤器的存储和判断机制，对判断某一个key一定存在有一定的误判率，无法做到百分之百的精准匹配。所以需要根据场景使用。<br><img src="/2023/07/07/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8-%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F.png" alt="Alt text"></p>
 </blockquote>
 <blockquote>
 <p>方案二，key第一次请求时，如果Redis匹配失败，去查询数据库返回null.这将这个空对象进行Redis保存。但是要设置一定的失效时间。</p>
@@ -148,9 +148,9 @@
 <li>但是匹配时，会有数据相交的地方。比如说下图的第三个节点，就是subCat1与subCat2相同的位置。</li>
 <li>此时有一个subCat虽然他的key是不存在的。但是根据hash算法解析后，他匹配的数组位置恰好都是1.则布隆过滤器会认为这个key是存在的。则出现了误判。这个误判只对判断一个key是否存在时会产生。</li>
 </ul>
-<p><img src="/2023/07/07/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9%5Cimage.png" alt="Alt text"></p>
+<p><img src="/2023/07/07/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9/image.png" alt="Alt text"></p>
 <h2 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h2><blockquote>
-<p>一个热电动额key,在一个高并发的场景下。进行请求，此时Redis中的缓存刚好失效，或者还未生成。导致该场景下的所有请求都绕过了缓存直接请求数据库。导致数据库压力过大直接打死。<br><img src="/2023/07/07/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9%5Cimage2.png" alt="Alt text"></p>
+<p>一个热点的key,在一个高并发的场景下。进行请求，此时Redis中的缓存刚好失效，或者还未生成。导致该场景下的所有请求都绕过了缓存直接请求数据库。导致数据库压力过大直接打死。<br><img src="/2023/07/07/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9/image2.png" alt="Alt text"></p>
 </blockquote>
 <h3 id="预防措施-1"><a href="#预防措施-1" class="headerlink" title="预防措施"></a>预防措施</h3><ul>
 <li>单线程 setnx<br><img src="/2023/07/07/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9/image-1.png" alt="Alt text"><blockquote>
@@ -185,7 +185,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/07/07/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9/" data-id="cljs80af80001u8i74zkxd9nk" data-title="高并发缓存三问-穿透、击穿、雪崩" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/07/07/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9/" data-id="cljs84evh0001j8i7bwum4opw" data-title="高并发缓存三问-穿透、击穿、雪崩" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -269,7 +269,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/07/06/CodeWhisperer%E8%87%AA%E5%8A%A8%E7%BC%96%E7%A8%8B%E7%9A%84%E6%8F%92%E4%BB%B6%E8%AF%95%E7%8E%A9/" data-id="cljs80af40000u8i75gd57ul0" data-title="CodeWhisperer自动编程的插件试玩" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/07/06/CodeWhisperer%E8%87%AA%E5%8A%A8%E7%BC%96%E7%A8%8B%E7%9A%84%E6%8F%92%E4%BB%B6%E8%AF%95%E7%8E%A9/" data-id="cljs84eve0000j8i74sq2gy16" data-title="CodeWhisperer自动编程的插件试玩" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
