@@ -75,6 +75,156 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Java多线程怎么玩" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/07/20/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%80%8E%E4%B9%88%E7%8E%A9/" class="article-date">
+  <time class="dt-published" datetime="2023-07-20T07:53:06.000Z" itemprop="datePublished">2023-07-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%90%8E%E7%AB%AF%E7%9F%A5%E8%AF%86/">后端知识</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/07/20/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%80%8E%E4%B9%88%E7%8E%A9/">Java多线程怎么玩</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Java多线梳理"><a href="#Java多线梳理" class="headerlink" title="Java多线梳理"></a>Java多线梳理</h1><h2 id="线程的类与包"><a href="#线程的类与包" class="headerlink" title="线程的类与包"></a>线程的类与包</h2><p>在Java中，有关线程的类和包主要有以下几个：</p>
+<ul>
+<li><p><code>java.lang.Thread</code>：这是线程的基本类，它提供了创建和管理线程的方法，如<code>start()</code>, <code>run()</code>, <code>sleep()</code>, <code>join()</code>, <code>interrupt()</code>等。</p>
+</li>
+<li><p><code>java.lang.Runnable</code>：这是一个函数式接口，它定义了一个抽象方法<code>run()</code>，用于在线程中执行任务。任何实现了<code>Runnable</code>接口的类都可以作为线程的目标对象。</p>
+</li>
+<li><p><code>java.util.concurrent</code>：这是一个并发编程的工具包，它提供了许多高级的线程管理和协调的类和接口，如<code>ExecutorService</code>, <code>Future</code>, <code>Callable</code>, <code>Lock</code>, <code>Semaphore</code>, <code>CountDownLatch</code>等。</p>
+</li>
+<li><p><code>java.util.concurrent.atomic</code>：这是一个原子操作的工具包，它提供了一些支持无锁并发编程的类，如<code>AtomicInteger</code>, <code>AtomicLong</code>, <code>AtomicReference</code>等。</p>
+</li>
+<li><p><code>java.util.concurrent.locks</code>：这是一个锁相关的工具包，它提供了一些比<code>synchronized</code>关键字更灵活和高效的锁机制，如<code>ReentrantLock</code>, <code>ReadWriteLock</code>, <code>Condition</code>等。后续的章节回再总结。</p>
+</li>
+</ul>
+<h2 id="创建线程的几种方式"><a href="#创建线程的几种方式" class="headerlink" title="创建线程的几种方式"></a>创建线程的几种方式</h2><h3 id="继承Thread类"><a href="#继承Thread类" class="headerlink" title="继承Thread类"></a>继承<code>Thread</code>类</h3><blockquote>
+<p>继承<code>Thread</code>类：这是最简单的一种方式，只需要定义一个子类，继承自<code>Thread</code>类，并重写其<code>run()</code>方法，然后创建该子类的对象，并调用其<code>start()</code>方法即可启动线程。例如：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyThread</span> <span class="keyword">extends</span> <span class="title class_">Thread</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// do something</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">MyThread</span> <span class="variable">t</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MyThread</span>();</span><br><span class="line">t.start();</span><br></pre></td></tr></table></figure>
+
+<h3 id="实现Runnable接口"><a href="#实现Runnable接口" class="headerlink" title="实现Runnable接口"></a>实现<code>Runnable</code>接口</h3><blockquote>
+<p>实现<code>Runnable</code>接口：这是一种更推荐的方式，因为它避免了单继承的局限性，并且更符合面向对象的设计原则。只需要定义一个类，实现<code>Runnable</code>接口，并实现其<code>run()</code>方法，然后创建该类的对象，并将其作为参数传递给<code>Thread</code>类的构造器，再调用其<code>start()</code>方法即可启动线程。例如：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyRunnable</span> <span class="keyword">implements</span> <span class="title class_">Runnable</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// do something</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">MyRunnable</span> <span class="variable">r</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MyRunnable</span>();</span><br><span class="line"><span class="type">Thread</span> <span class="variable">t</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>(r);</span><br><span class="line">t.start();</span><br></pre></td></tr></table></figure>
+
+<h3 id="实现Callable接口"><a href="#实现Callable接口" class="headerlink" title="实现Callable接口"></a>实现<code>Callable</code>接口</h3><blockquote>
+<p>实现<code>Callable</code>接口：这是一种更高级的方式，它允许线程返回一个结果，并且可以抛出异常。只需要定义一个类，实现<code>Callable</code>接口，并实现其泛型方法<code>call()</code>，然后创建该类的对象，并将其作为参数传递给<code>ExecutorService</code>接口的方法，如<code>submit()</code>或者<code>invokeAll()</code>等，再通过返回的<code>Future</code>对象获取线程的结果或者异常。例如：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyCallable</span> <span class="keyword">implements</span> <span class="title class_">Callable</span>&lt;Integer&gt; &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Integer <span class="title function_">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">// do something and return a result</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">MyCallable</span> <span class="variable">c</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MyCallable</span>();</span><br><span class="line"><span class="type">ExecutorService</span> <span class="variable">executor</span> <span class="operator">=</span> Executors.newCachedThreadPool();</span><br><span class="line">Future&lt;Integer&gt; future = executor.submit(c);</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="type">Integer</span> <span class="variable">result</span> <span class="operator">=</span> future.get();</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">    <span class="comment">// handle exception</span></span><br><span class="line">&#125;</span><br><span class="line">executor.shutdown();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用匿名内部类或者Lambda表达式：这是一种更简洁和优雅的方式，它可以省去定义额外的类，直接在创建线程时提供任务的逻辑。只需要将一个匿名内部类或者Lambda表达式作为参数传递给<code>Thread</code>类或者<code>ExecutorService</code>接口即可。例如：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// using anonymous inner class</span></span><br><span class="line"><span class="keyword">new</span> <span class="title class_">Thread</span>(<span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// do something</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;).start();</span><br><span class="line"></span><br><span class="line"><span class="comment">// using lambda expression</span></span><br><span class="line"><span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; &#123;</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">&#125;).start();</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用线程池创建"><a href="#使用线程池创建" class="headerlink" title="使用线程池创建"></a>使用线程池创建</h3><blockquote>
+<p>线程池是一种管理和复用线程的机制，它可以避免频繁地创建和销毁线程，提高性能和资源利用率。在Java中，有关线程池的类和接口主要有以下几个：</p>
+</blockquote>
+<ul>
+<li><p><code>java.util.concurrent.Executor</code>：这是一个执行任务的接口，它定义了一个抽象方法<code>execute(Runnable command)</code>，用于接收一个<code>Runnable</code>对象作为任务，并在线程池中执行。</p>
+</li>
+<li><p><code>java.util.concurrent.ExecutorService</code>：这是一个扩展了<code>Executor</code>接口的子接口，它提供了更多的方法，如<code>submit(Callable&lt;T&gt; task)</code>, <code>shutdown()</code>, <code>invokeAll(Collection&lt;? extends Callable&lt;T&gt;&gt; tasks)</code>等，用于提交不同类型的任务，并控制线程池的生命周期和结果。</p>
+</li>
+<li><p><code>java.util.concurrent.Executors</code>：这是一个工具类，它提供了一些静态方法，用于创建不同类型的线程池，如<code>newCachedThreadPool()</code>, <code>newFixedThreadPool(int nThreads)</code>, <code>newSingleThreadExecutor()</code>等。</p>
+</li>
+<li><p><code>java.util.concurrent.ThreadPoolExecutor</code>：这是一个实现了<code>ExecutorService</code>接口的类，它是线程池的核心类，它提供了一些构造器和方法，用于自定义线程池的参数和行为，如<code>corePoolSize</code>, <code>maximumPoolSize</code>, <code>keepAliveTime</code>, <code>workQueue</code>, <code>threadFactory</code>, <code>rejectedExecutionHandler</code>等。</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyThreadPool</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建固定的线程池</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span>  <span class="type">ExecutorService</span> <span class="variable">executorService</span> <span class="operator">=</span> Executors.newFixedThreadPool(<span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// newFixedThreadPool 固定数量线程池 线程是不会被回收的</span></span><br><span class="line">    <span class="comment">// newCachedThreadPool 缓存线程池，线程会被回收</span></span><br><span class="line">    <span class="comment">// newSingleThreadExecutor 单线程池，从队列中获得任务并且顺序执行</span></span><br><span class="line">    <span class="comment">// newScheduledThreadPool 定时任务的线程池</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *     int corePoolSize : 核心线程数量，线程池一旦创建好就有的固定线程， 这些线程用于接收并且处理异步任务，如果任务完结，这些线程会处于空闲状态，依然存在。除非设置allowCoreThreadTimeOut</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     *     int maximumPoolSize: 线程池中允许的最大线程数量,如果请求任务的并发超过了corePoolSize。那个么最大的线程数也不会超过maximumPoolSize（弹性伸缩）</span></span><br><span class="line"><span class="comment">     *     long keepAliveTime: 超时时间，当超过corePoolSize的部分线程超时了，则释放</span></span><br><span class="line"><span class="comment">     *     TimeUnit unit, 超时的时间单位</span></span><br><span class="line"><span class="comment">     *     BlockingQueue&lt;Runnable&gt; workQueue: 阻塞队列，任务执行之前，超出的任务会先保存到一个队列中，线程一旦空闲，则从队列中获取新的任务开始执行</span></span><br><span class="line"><span class="comment">     *     ThreadFactory threadFactory: 线程工厂，怎么去创建线程的</span></span><br><span class="line"><span class="comment">     *     RejectedExecutionHandler handler ：驳回与拒绝的策略，队列满了或者队列达到了性能的瓶颈。采取的策略</span></span><br><span class="line"><span class="comment">     *                      AbortPolicy -:新任务进来则直接丢弃（抛异常）</span></span><br><span class="line"><span class="comment">     *                  CallerRunPolicy -:不用线程，直接调用run方法，为了保证任务一个都不丢失。但是可能会出现数据处理积压的情况</span></span><br><span class="line"><span class="comment">     *                  DiscardOlddestPolicy -:丢弃老的任务，使用新的任务</span></span><br><span class="line"><span class="comment">     *                  DiscardPolicy-：丢弃新的任务，不会抛出异常</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span>  <span class="keyword">static</span> <span class="type">ThreadPoolExecutor</span> <span class="variable">executor</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ThreadPoolExecutor</span>(</span><br><span class="line">    <span class="number">3</span>,</span><br><span class="line">    <span class="number">10</span>,</span><br><span class="line">    <span class="number">30</span>,</span><br><span class="line">    TimeUnit.SECONDS,</span><br><span class="line">    <span class="keyword">new</span> <span class="title class_">LinkedBlockingQueue</span>&lt;&gt;(<span class="number">5000</span>),</span><br><span class="line">    Executors.defaultThreadFactory(),</span><br><span class="line">    <span class="keyword">new</span> <span class="title class_">ThreadPoolExecutor</span>.AbortPolicy()</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>以下是一个使用线程池创建线程的示例：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// create a fixed thread pool with 5 threads</span></span><br><span class="line"><span class="type">ExecutorService</span> <span class="variable">executor</span> <span class="operator">=</span> Executors.newFixedThreadPool(<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// create a list of tasks</span></span><br><span class="line">List&lt;Callable&lt;Integer&gt;&gt; tasks = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">    tasks.add(() -&gt; &#123;</span><br><span class="line">        <span class="comment">// do something and return a result</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// submit the tasks and get the results</span></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    List&lt;Future&lt;Integer&gt;&gt; futures = executor.invokeAll(tasks);</span><br><span class="line">    <span class="keyword">for</span> (Future&lt;Integer&gt; future : futures) &#123;</span><br><span class="line">        <span class="type">Integer</span> <span class="variable">result</span> <span class="operator">=</span> future.get();</span><br><span class="line">        <span class="comment">// do something with the result</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">    <span class="comment">// handle exception</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// shutdown the thread pool</span></span><br><span class="line">executor.shutdown();</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/07/20/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%80%8E%E4%B9%88%E7%8E%A9/1.png" alt="案例"></p>
+<h2 id="CompletableFuture"><a href="#CompletableFuture" class="headerlink" title="CompletableFuture"></a>CompletableFuture</h2><p><code>CompletableFuture</code>是一个实现了<code>Future</code>接口的类，它提供了一种异步编程的方式，可以方便地组合多个线程的结果，处理异常，执行回调等。它有以下几个特点：</p>
+<ul>
+<li><p>可以通过静态方法<code>supplyAsync()</code>或者<code>runAsync()</code>创建，传入一个<code>Supplier</code>或者<code>Runnable</code>作为任务的逻辑，返回一个<code>CompletableFuture</code>对象。</p>
+<blockquote>
+<p>supplyAsync() Callable+Thread:异步线程可以获得返回值 但是会阻塞当前线程</p>
+</blockquote>
+<blockquote>
+<p>runAsync() Thread + Runnable:异步线程 但是已无法获得返回值</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">  <span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">CompletableFutureTest</span><span class="params">()</span> <span class="keyword">throws</span> ExecutionException, InterruptedException &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * runAsync: Thread + Runnable:异步线程 但是已无法获得返回值</span></span><br><span class="line"><span class="comment">     * supplyAsync: Callable+Thread:异步线程可以获得返回值 但是会阻塞当前线程</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    System.out.println(<span class="string">&quot;开始执行&quot;</span>);</span><br><span class="line">    CompletableFuture&lt;Void&gt; voidCompletableFuture =</span><br><span class="line">            CompletableFuture.runAsync(<span class="keyword">new</span> <span class="title class_">RunnableClass_01</span>(),MyThreadPool.executorService);</span><br><span class="line">    </span><br><span class="line">   CompletableFuture&lt;String&gt; completableFuture =  CompletableFuture.supplyAsync(() -&gt; &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">uuId</span> <span class="operator">=</span> UUID.randomUUID().toString();</span><br><span class="line">        System.out.println(<span class="string">&quot;内部打印:&quot;</span>+uuId);</span><br><span class="line">        <span class="keyword">return</span> uuId;</span><br><span class="line">    &#125;,MyThreadPool.executor);</span><br><span class="line">   </span><br><span class="line">    System.out.println(<span class="string">&quot;外部获取的UUID:&quot;</span>+completableFuture.get());</span><br><span class="line">    System.out.println(<span class="string">&quot;执行结束&quot;</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>可以通过实例方法<code>thenApply()</code>, <code>thenAccept()</code>, <code>thenRun()</code>等，对上一个线程的结果进行转换，消费或者执行，返回一个新的<code>CompletableFuture</code>对象。</p>
+<ul>
+<li>thenRun()    线程任务执行结束之后执行该方法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">  <span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">CompletableFutureTestThenRun</span><span class="params">()</span> <span class="keyword">throws</span> ExecutionException, InterruptedException &#123;</span><br><span class="line">    CompletableFuture&lt;Void&gt; completableFuture =  CompletableFuture.supplyAsync(() -&gt; &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">uuId</span> <span class="operator">=</span> UUID.randomUUID().toString();</span><br><span class="line">        System.out.println(<span class="string">&quot;任务1打印:&quot;</span>+uuId);</span><br><span class="line">        <span class="comment">// return uuId;</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;,MyThreadPool.executorService).thenRun(() -&gt; &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Then Run打印，执行完任务1之后执行该操作，无参，也没有返回值&quot;</span>);</span><br><span class="line">    &#125;).exceptionally(throwable -&gt; &#123;</span><br><span class="line">        System.out.println(throwable.getMessage());</span><br><span class="line">        System.out.println(<span class="string">&quot;进入兜底异常处理类&quot;</span>);</span><br><span class="line">        <span class="comment">// return &quot;1111&quot;;</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;);</span><br><span class="line">    System.out.println(completableFuture.get());</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>thenAccept() 线程任务执行结束之后执行该方法，可以接收线程任务返回的结果值，并做处理。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">CompletableFutureTestThenAccept</span><span class="params">()</span> <span class="keyword">throws</span> ExecutionException, InterruptedException &#123;</span><br><span class="line">    CompletableFuture&lt;Void&gt; completableFuture =  CompletableFuture.supplyAsync(() -&gt; &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">uuId</span> <span class="operator">=</span> UUID.randomUUID().toString();</span><br><span class="line">        System.out.println(<span class="string">&quot;任务1打印:&quot;</span>+uuId);</span><br><span class="line">        <span class="keyword">return</span> uuId;</span><br><span class="line">    &#125;,MyThreadPool.executorService).exceptionally(throwable -&gt; &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;兜底校验获取的的错误信息:&quot;</span>+throwable.getMessage());</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;1&quot;</span>;</span><br><span class="line">    &#125;).thenAccept(o -&gt; &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Accept中接收上一步返回的参数:&quot;</span>+o);</span><br><span class="line">    &#125;);</span><br><span class="line">    System.out.println(completableFuture.get());</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>thenApply()  线程任务执行结束之后执行该方法，可以接收上一线程任务返回的参数，并且有返回值</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">  <span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">CompletableFutureTestThenApply</span><span class="params">()</span> <span class="keyword">throws</span> ExecutionException, InterruptedException &#123;</span><br><span class="line">    CompletableFuture&lt;String&gt; completableFuture =  CompletableFuture.supplyAsync(() -&gt; &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">uuId</span> <span class="operator">=</span> UUID.randomUUID().toString();</span><br><span class="line">        System.out.println(<span class="string">&quot;任务1打印:&quot;</span>+uuId);</span><br><span class="line">        <span class="keyword">return</span> uuId;</span><br><span class="line">    &#125;,MyThreadPool.executorService).exceptionally(throwable -&gt; &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;兜底校验获取的的错误信息:&quot;</span>+throwable.getMessage());</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;1&quot;</span>;</span><br><span class="line">    &#125;).thenApply(s -&gt; &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Accept中接收上一步返回的参数:&quot;</span>+s);</span><br><span class="line">        <span class="keyword">return</span> s+<span class="string">&quot;:&quot;</span>+LocalDateTime.now();</span><br><span class="line">    &#125;).thenApply(s -&gt; &#123;</span><br><span class="line">        <span class="keyword">return</span> s + <span class="string">&quot;_&quot;</span> + <span class="number">66666</span>;</span><br><span class="line">    &#125;);</span><br><span class="line">    System.out.println(completableFuture.get());</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>封装了一些Both相关的方法，<code>runAfterBoth()</code>,<code>runAfterEither()</code>,<code>thenAcceptBoth()</code>,用于处理俩个线程之间的运行逻辑。</p>
+</li>
+<li><p>可以通过实例方法<code>thenCompose()</code>, <code>thenCombine()</code>, <code>allOf()</code>, <code>anyOf()</code>等，将多个线程的结果进行串行或者并行的组合，返回一个新的<code>CompletableFuture</code>对象。</p>
+</li>
+<li><p>可以通过实例方法<code>exceptionally()</code>, <code>handle()</code>, <code>whenComplete()</code>等，对线程中发生的异常进行处理或者执行完成后的操作，返回一个新的或者原来的<code>CompletableFuture</code>对象。</p>
+<ul>
+<li><p>exceptionally 线程异常处理捕获的场景</p>
+</li>
+<li><p>handle现成结果集处理数据再加工的场景</p>
+</li>
+<li><p>whenComplete 现成执行完毕</p>
+</li>
+</ul>
+</li>
+<li><p>可以通过实例方法<code>join()</code>或者<code>get()</code>获取线程的结果或者异常，</p>
+<ul>
+<li>区别在于join()不会抛出异常，而get()会。</li>
+</ul>
+</li>
+</ul>
+<p>因为场景很多，就不一一例举了。以下是一个简单的示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// create a CompletableFuture that returns a string</span></span><br><span class="line">CompletableFuture&lt;String&gt; cf1 = CompletableFuture.supplyAsync(() -&gt; &#123;</span><br><span class="line">    <span class="comment">// do something and return a string</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// create another CompletableFuture that returns a string</span></span><br><span class="line">CompletableFuture&lt;String&gt; cf2 = CompletableFuture.supplyAsync(() -&gt; &#123;</span><br><span class="line">    <span class="comment">// do something and return a string</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;World&quot;</span>;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// combine the two CompletableFutures and print the result</span></span><br><span class="line">cf1.thenCombine(cf2, (s1, s2) -&gt; s1 + <span class="string">&quot; &quot;</span> + s2).thenAccept(System.out::println);</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hello World</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/07/20/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%80%8E%E4%B9%88%E7%8E%A9/" data-id="clkavlkfc0005mgi7406mg6vw" data-title="Java多线程怎么玩" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/" rel="tag">Java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-Git常用命令汇总" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/07/10/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%B1%87%E6%80%BB/" class="article-date">
@@ -186,7 +336,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/07/10/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%B1%87%E6%80%BB/" data-id="cljwriart0003fgi74xqr3vyv" data-title="Git常用命令汇总" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/07/10/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%B1%87%E6%80%BB/" data-id="clkavlkf80003mgi7183adojz" data-title="Git常用命令汇总" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -283,6 +433,7 @@
 <li><code>docker wait</code>：阻塞直到一个或多个容器停止，然后打印出它们的退出代码，可以指定容器的ID或名称。</li>
 <li><code>docker export</code>：将一个容器的文件系统导出为一个tar归档文件，可以指定输出文件名或标准输出，可以指定容器的ID或名称。</li>
 <li><code>docker port</code>：查看一个指定的映射到私有端口上的公共端口，可以指定容器的ID或名称。</li>
+<li><code>docker cp</code>: 将电脑中的文件复制到docker容器中可以使用此命令<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># docker cp 文件 容器名:/容器路径</span></span><br><span class="line"> docker <span class="built_in">cp</span> abc.xml rabbitmq:/plugins</span><br></pre></td></tr></table></figure></li>
 </ul>
 <p>使用场景：</p>
 <ul>
@@ -308,7 +459,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/07/10/Docker%E5%91%BD%E4%BB%A4%E6%B1%87%E6%80%BB%E3%80%81%E6%9C%80%E5%B8%B8%E7%94%A8%E7%9A%84%E4%B9%9F%E5%B0%B1%E5%87%A0%E5%8F%A5/" data-id="cljwriarr0001fgi74l4n7sp0" data-title="Docker命令汇总、最常用的也就这几句" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/07/10/Docker%E5%91%BD%E4%BB%A4%E6%B1%87%E6%80%BB%E3%80%81%E6%9C%80%E5%B8%B8%E7%94%A8%E7%9A%84%E4%B9%9F%E5%B0%B1%E5%87%A0%E5%8F%A5/" data-id="clkavlkf50001mgi7hzbp8vyf" data-title="Docker命令汇总、最常用的也就这几句" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -445,7 +596,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/07/07/%E8%AF%95%E7%8E%A9Canal%EF%BC%8C0%E5%85%A5%E4%BE%B5%E5%AE%9E%E7%8E%B0%E7%BC%93%E5%AD%98%E5%90%8C%E6%AD%A5/" data-id="cljwriart0005fgi7bu4nbu3i" data-title="试玩Canal，零侵入实现缓存同步" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/07/07/%E8%AF%95%E7%8E%A9Canal%EF%BC%8C0%E5%85%A5%E4%BE%B5%E5%AE%9E%E7%8E%B0%E7%BC%93%E5%AD%98%E5%90%8C%E6%AD%A5/" data-id="clkavlkfc0006mgi7fah3f6qe" data-title="试玩Canal，零侵入实现缓存同步" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -569,7 +720,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/07/07/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9/" data-id="cljwriary000ofgi77aspail6" data-title="高并发缓存三问-穿透、击穿、雪崩" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/07/07/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9/" data-id="clkavlkfd0008mgi78sor2go5" data-title="高并发缓存三问-穿透、击穿、雪崩" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -653,7 +804,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/07/06/CodeWhisperer%E8%87%AA%E5%8A%A8%E7%BC%96%E7%A8%8B%E7%9A%84%E6%8F%92%E4%BB%B6%E8%AF%95%E7%8E%A9/" data-id="cljwriaro0000fgi7bzvafiwq" data-title="CodeWhisperer自动编程的插件试玩" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/07/06/CodeWhisperer%E8%87%AA%E5%8A%A8%E7%BC%96%E7%A8%8B%E7%9A%84%E6%8F%92%E4%BB%B6%E8%AF%95%E7%8E%A9/" data-id="clkavlkf10000mgi7b6bl236u" data-title="CodeWhisperer自动编程的插件试玩" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -697,7 +848,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 20px;">开发工具</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD/" style="font-size: 10px;">数据备份</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a>
+      <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 20px;">开发工具</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD/" style="font-size: 10px;">数据备份</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a>
     </div>
   </div>
 
@@ -719,6 +870,10 @@
       <ul>
         
           <li>
+            <a href="/2023/07/20/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%80%8E%E4%B9%88%E7%8E%A9/">Java多线程怎么玩</a>
+          </li>
+        
+          <li>
             <a href="/2023/07/10/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%B1%87%E6%80%BB/">Git常用命令汇总</a>
           </li>
         
@@ -732,10 +887,6 @@
         
           <li>
             <a href="/2023/07/07/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9/">高并发缓存三问-穿透、击穿、雪崩</a>
-          </li>
-        
-          <li>
-            <a href="/2023/07/06/CodeWhisperer%E8%87%AA%E5%8A%A8%E7%BC%96%E7%A8%8B%E7%9A%84%E6%8F%92%E4%BB%B6%E8%AF%95%E7%8E%A9/">CodeWhisperer自动编程的插件试玩</a>
           </li>
         
       </ul>
