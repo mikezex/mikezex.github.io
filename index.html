@@ -93,7 +93,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/07/20/Spring-Boot%E4%B8%AD%E8%BF%87%E6%BB%A4%E5%99%A8%EF%BC%8C%E6%8B%A6%E6%88%AA%E5%99%A8%E5%92%8C%E6%8E%A7%E5%88%B6%E5%99%A8%E9%80%9A%E7%9F%A5%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/">Spring Boot中过滤器，拦截器和控制器通知的区别和使用场景</a>
+      <a class="p-name article-title" href="/2023/07/20/Spring-Boot%E4%B8%AD%E8%BF%87%E6%BB%A4%E5%99%A8%EF%BC%8C%E6%8B%A6%E6%88%AA%E5%99%A8%E5%92%8C%E6%8E%A7%E5%88%B6%E5%99%A8%E9%80%9A%E7%9F%A5%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/">Spring Boot中过滤器（Filter），拦截器（Interceptor）和控制器通知（ControllerAdvice）的区别和使用场景</a>
     </h1>
   
 
@@ -101,7 +101,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="Spring-Boot中过滤器（Filter），拦截器（Interceptor）和控制器通知（ControllerAdvice）的区别和使用场景"><a href="#Spring-Boot中过滤器（Filter），拦截器（Interceptor）和控制器通知（ControllerAdvice）的区别和使用场景" class="headerlink" title="Spring Boot中过滤器（Filter），拦截器（Interceptor）和控制器通知（ControllerAdvice）的区别和使用场景"></a>Spring Boot中过滤器（Filter），拦截器（Interceptor）和控制器通知（ControllerAdvice）的区别和使用场景</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>在Spring Boot中，我们经常会遇到需要对请求和响应进行一些处理的需求，例如验证用户身份，记录日志，处理异常等。为了实现这些功能，Spring Boot提供了三种常用的机制：过滤器（Filter），拦截器（Interceptor）和控制器通知（ControllerAdvice。这三种机制都可以对请求和响应进行拦截和处理，但它们有不同的特点和适用场景。本文将介绍它们的区别和使用方法，并给出一些代码示例。</p>
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>在Spring Boot中，我们经常会遇到需要对请求和响应进行一些处理的需求，例如验证用户身份，记录日志，处理异常等。为了实现这些功能，Spring Boot提供了三种常用的机制：过滤器（Filter），拦截器（Interceptor）和控制器通知（ControllerAdvice。这三种机制都可以对请求和响应进行拦截和处理，但它们有不同的特点和适用场景。本文将介绍它们的区别和使用方法，并给出一些代码示例。</p>
 <h2 id="过滤器（Filter）"><a href="#过滤器（Filter）" class="headerlink" title="过滤器（Filter）"></a>过滤器（Filter）</h2><p>过滤器是属于Web服务器的，它可以对任何请求进行拦截和处理，无论是否经过DispatcherServlet分发。过滤器是基于回调函数的，需要实现javax.servlet.Filter接口，并重写doFilter()方法。过滤器可以修改请求和响应对象，甚至可以替换它们。过滤器需要在web.xml中配置，或者使用@WebFilter注解。</p>
 <p>过滤器通常用于处理请求内容和视图内容，例如多部分表单和GZIP压缩等。这通常表现在需要将过滤器映射到某些内容类型（例如图片）或者所有请求上。</p>
 <h3 id="过滤器的使用方法"><a href="#过滤器的使用方法" class="headerlink" title="过滤器的使用方法"></a>过滤器的使用方法</h3><p>要使用过滤器，我们需要做以下几步：</p>
@@ -197,7 +197,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/07/20/Spring-Boot%E4%B8%AD%E8%BF%87%E6%BB%A4%E5%99%A8%EF%BC%8C%E6%8B%A6%E6%88%AA%E5%99%A8%E5%92%8C%E6%8E%A7%E5%88%B6%E5%99%A8%E9%80%9A%E7%9F%A5%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/" data-id="clkb01but0006aki7hgc62wnr" data-title="Spring Boot中过滤器，拦截器和控制器通知的区别和使用场景" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/07/20/Spring-Boot%E4%B8%AD%E8%BF%87%E6%BB%A4%E5%99%A8%EF%BC%8C%E6%8B%A6%E6%88%AA%E5%99%A8%E5%92%8C%E6%8E%A7%E5%88%B6%E5%99%A8%E9%80%9A%E7%9F%A5%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/" data-id="clkb04bds0005v8i73v12csvl" data-title="Spring Boot中过滤器（Filter），拦截器（Interceptor）和控制器通知（ControllerAdvice）的区别和使用场景" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -237,7 +237,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="Java多线梳理"><a href="#Java多线梳理" class="headerlink" title="Java多线梳理"></a>Java多线梳理</h1><h2 id="线程的类与包"><a href="#线程的类与包" class="headerlink" title="线程的类与包"></a>线程的类与包</h2><p>在Java中，有关线程的类和包主要有以下几个：</p>
+        <h2 id="线程的类与包"><a href="#线程的类与包" class="headerlink" title="线程的类与包"></a>线程的类与包</h2><p>在Java中，有关线程的类和包主要有以下几个：</p>
 <ul>
 <li><p><code>java.lang.Thread</code>：这是线程的基本类，它提供了创建和管理线程的方法，如<code>start()</code>, <code>run()</code>, <code>sleep()</code>, <code>join()</code>, <code>interrupt()</code>等。</p>
 </li>
@@ -347,7 +347,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/07/20/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%80%8E%E4%B9%88%E7%8E%A9/" data-id="clkb01bus0004aki71kawdf9o" data-title="Java多线程怎么玩" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/07/20/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%80%8E%E4%B9%88%E7%8E%A9/" data-id="clkb04bds0006v8i7923mcl3t" data-title="Java多线程怎么玩" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -472,7 +472,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/07/10/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%B1%87%E6%80%BB/" data-id="clkb01bup0001aki73n0m8vyo" data-title="Git常用命令汇总" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/07/10/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%B1%87%E6%80%BB/" data-id="clkb04bdr0003v8i7ac6k1oke" data-title="Git常用命令汇总" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -512,7 +512,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="Docker的常用命令与使用场景"><a href="#Docker的常用命令与使用场景" class="headerlink" title="Docker的常用命令与使用场景"></a>Docker的常用命令与使用场景</h1><h2 id="什么是Docker"><a href="#什么是Docker" class="headerlink" title="什么是Docker"></a>什么是Docker</h2><p>Docker是一个开源的容器虚拟化平台，可以让开发者打包应用和依赖环境到一个轻量级、可移植的容器中，然后发布到任何支持Docker的机器上，实现快速、一致的部署和运行。</p>
+        <h2 id="什么是Docker"><a href="#什么是Docker" class="headerlink" title="什么是Docker"></a>什么是Docker</h2><p>Docker是一个开源的容器虚拟化平台，可以让开发者打包应用和依赖环境到一个轻量级、可移植的容器中，然后发布到任何支持Docker的机器上，实现快速、一致的部署和运行。</p>
 <h2 id="Docker的常用命令"><a href="#Docker的常用命令" class="headerlink" title="Docker的常用命令"></a>Docker的常用命令</h2><p>Docker的常用命令一般分为以下几类：</p>
 <ul>
 <li>Docker环境信息：查看Docker的版本、状态、配置等信息。</li>
@@ -595,7 +595,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/07/10/Docker%E5%91%BD%E4%BB%A4%E6%B1%87%E6%80%BB%E3%80%81%E6%9C%80%E5%B8%B8%E7%94%A8%E7%9A%84%E4%B9%9F%E5%B0%B1%E5%87%A0%E5%8F%A5/" data-id="clkb01bur0003aki76ywx02iu" data-title="Docker命令汇总、最常用的也就这几句" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/07/10/Docker%E5%91%BD%E4%BB%A4%E6%B1%87%E6%80%BB%E3%80%81%E6%9C%80%E5%B8%B8%E7%94%A8%E7%9A%84%E4%B9%9F%E5%B0%B1%E5%87%A0%E5%8F%A5/" data-id="clkb04bdp0001v8i7dy5wf9qz" data-title="Docker命令汇总、最常用的也就这几句" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -732,7 +732,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/07/07/%E8%AF%95%E7%8E%A9Canal%EF%BC%8C0%E5%85%A5%E4%BE%B5%E5%AE%9E%E7%8E%B0%E7%BC%93%E5%AD%98%E5%90%8C%E6%AD%A5/" data-id="clkb01buu0008aki78mxmh6ym" data-title="试玩Canal，零侵入实现缓存同步" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/07/07/%E8%AF%95%E7%8E%A9Canal%EF%BC%8C0%E5%85%A5%E4%BE%B5%E5%AE%9E%E7%8E%B0%E7%BC%93%E5%AD%98%E5%90%8C%E6%AD%A5/" data-id="clkb04bdu000av8i7e34xcbpl" data-title="试玩Canal，零侵入实现缓存同步" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -856,7 +856,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/07/07/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9/" data-id="clkb01buu0009aki70r92gf30" data-title="高并发缓存三问-穿透、击穿、雪崩" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/07/07/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%93%E5%AD%98%E4%B8%89%E9%97%AE-%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9/" data-id="clkb04bdt0008v8i79areaauu" data-title="高并发缓存三问-穿透、击穿、雪崩" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -892,7 +892,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="安装试用一下自动编程软件"><a href="#安装试用一下自动编程软件" class="headerlink" title="安装试用一下自动编程软件"></a>安装试用一下自动编程软件</h1><p>程序员实现面向注释编程不是梦</p>
+        <p>程序员实现面向注释编程不是梦</p>
 <h1 id="Copilot-vs-CodeWhisperer"><a href="#Copilot-vs-CodeWhisperer" class="headerlink" title="Copilot vs CodeWhisperer"></a>Copilot vs CodeWhisperer</h1><p>Copilot和CodeWhisperer都是基于AI的编程辅助工具，它们可以根据开发者的注释或输入，自动提供代码建议。它们有很多相似之处，但也有一些不同之处，这些不同之处可能会影响你选择使用哪一个工具。下面是一个简单的对比表格，列举了它们的一些主要特点和区别。</p>
 <table>
 <thead>
@@ -940,7 +940,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/07/06/CodeWhisperer%E8%87%AA%E5%8A%A8%E7%BC%96%E7%A8%8B%E7%9A%84%E6%8F%92%E4%BB%B6%E8%AF%95%E7%8E%A9/" data-id="clkb01bum0000aki75j293p4g" data-title="CodeWhisperer自动编程的插件试玩" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/07/06/CodeWhisperer%E8%87%AA%E5%8A%A8%E7%BC%96%E7%A8%8B%E7%9A%84%E6%8F%92%E4%BB%B6%E8%AF%95%E7%8E%A9/" data-id="clkb04bdm0000v8i73qdi9jnt" data-title="CodeWhisperer自动编程的插件试玩" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1006,7 +1006,7 @@
       <ul>
         
           <li>
-            <a href="/2023/07/20/Spring-Boot%E4%B8%AD%E8%BF%87%E6%BB%A4%E5%99%A8%EF%BC%8C%E6%8B%A6%E6%88%AA%E5%99%A8%E5%92%8C%E6%8E%A7%E5%88%B6%E5%99%A8%E9%80%9A%E7%9F%A5%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/">Spring Boot中过滤器，拦截器和控制器通知的区别和使用场景</a>
+            <a href="/2023/07/20/Spring-Boot%E4%B8%AD%E8%BF%87%E6%BB%A4%E5%99%A8%EF%BC%8C%E6%8B%A6%E6%88%AA%E5%99%A8%E5%92%8C%E6%8E%A7%E5%88%B6%E5%99%A8%E9%80%9A%E7%9F%A5%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/">Spring Boot中过滤器（Filter），拦截器（Interceptor）和控制器通知（ControllerAdvice）的区别和使用场景</a>
           </li>
         
           <li>

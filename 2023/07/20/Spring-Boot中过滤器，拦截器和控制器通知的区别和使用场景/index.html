@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   
   
-  <title>Spring Boot中过滤器，拦截器和控制器通知的区别和使用场景 | 日之呼吸</title>
+  <title>Spring Boot中过滤器（Filter），拦截器（Interceptor）和控制器通知（ControllerAdvice）的区别和使用场景 | 日之呼吸</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Spring Boot中过滤器（Filter），拦截器（Interceptor）和控制器通知（ControllerAdvice）的区别和使用场景概述在Spring Boot中，我们经常会遇到需要对请求和响应进行一些处理的需求，例如验证用户身份，记录日志，处理异常等。为了实现这些功能，Spring Boot提供了三种常用的机制：过滤器（Filter），拦截器（Interceptor）和控制器通知（C">
+  <meta name="description" content="概述在Spring Boot中，我们经常会遇到需要对请求和响应进行一些处理的需求，例如验证用户身份，记录日志，处理异常等。为了实现这些功能，Spring Boot提供了三种常用的机制：过滤器（Filter），拦截器（Interceptor）和控制器通知（ControllerAdvice。这三种机制都可以对请求和响应进行拦截和处理，但它们有不同的特点和适用场景。本文将介绍它们的区别和使用方法，并给出">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring Boot中过滤器，拦截器和控制器通知的区别和使用场景">
+<meta property="og:title" content="Spring Boot中过滤器（Filter），拦截器（Interceptor）和控制器通知（ControllerAdvice）的区别和使用场景">
 <meta property="og:url" content="http://example.com/2023/07/20/Spring-Boot%E4%B8%AD%E8%BF%87%E6%BB%A4%E5%99%A8%EF%BC%8C%E6%8B%A6%E6%88%AA%E5%99%A8%E5%92%8C%E6%8E%A7%E5%88%B6%E5%99%A8%E9%80%9A%E7%9F%A5%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/index.html">
 <meta property="og:site_name" content="日之呼吸">
-<meta property="og:description" content="Spring Boot中过滤器（Filter），拦截器（Interceptor）和控制器通知（ControllerAdvice）的区别和使用场景概述在Spring Boot中，我们经常会遇到需要对请求和响应进行一些处理的需求，例如验证用户身份，记录日志，处理异常等。为了实现这些功能，Spring Boot提供了三种常用的机制：过滤器（Filter），拦截器（Interceptor）和控制器通知（C">
+<meta property="og:description" content="概述在Spring Boot中，我们经常会遇到需要对请求和响应进行一些处理的需求，例如验证用户身份，记录日志，处理异常等。为了实现这些功能，Spring Boot提供了三种常用的机制：过滤器（Filter），拦截器（Interceptor）和控制器通知（ControllerAdvice。这三种机制都可以对请求和响应进行拦截和处理，但它们有不同的特点和适用场景。本文将介绍它们的区别和使用方法，并给出">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-07-20T10:15:51.000Z">
-<meta property="article:modified_time" content="2023-07-20T10:17:51.232Z">
+<meta property="article:modified_time" content="2023-07-20T10:19:13.123Z">
 <meta property="article:author" content="zex">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="SpringBoot">
@@ -95,7 +95,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      Spring Boot中过滤器，拦截器和控制器通知的区别和使用场景
+      Spring Boot中过滤器（Filter），拦截器（Interceptor）和控制器通知（ControllerAdvice）的区别和使用场景
     </h1>
   
 
@@ -103,7 +103,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="Spring-Boot中过滤器（Filter），拦截器（Interceptor）和控制器通知（ControllerAdvice）的区别和使用场景"><a href="#Spring-Boot中过滤器（Filter），拦截器（Interceptor）和控制器通知（ControllerAdvice）的区别和使用场景" class="headerlink" title="Spring Boot中过滤器（Filter），拦截器（Interceptor）和控制器通知（ControllerAdvice）的区别和使用场景"></a>Spring Boot中过滤器（Filter），拦截器（Interceptor）和控制器通知（ControllerAdvice）的区别和使用场景</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>在Spring Boot中，我们经常会遇到需要对请求和响应进行一些处理的需求，例如验证用户身份，记录日志，处理异常等。为了实现这些功能，Spring Boot提供了三种常用的机制：过滤器（Filter），拦截器（Interceptor）和控制器通知（ControllerAdvice。这三种机制都可以对请求和响应进行拦截和处理，但它们有不同的特点和适用场景。本文将介绍它们的区别和使用方法，并给出一些代码示例。</p>
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>在Spring Boot中，我们经常会遇到需要对请求和响应进行一些处理的需求，例如验证用户身份，记录日志，处理异常等。为了实现这些功能，Spring Boot提供了三种常用的机制：过滤器（Filter），拦截器（Interceptor）和控制器通知（ControllerAdvice。这三种机制都可以对请求和响应进行拦截和处理，但它们有不同的特点和适用场景。本文将介绍它们的区别和使用方法，并给出一些代码示例。</p>
 <h2 id="过滤器（Filter）"><a href="#过滤器（Filter）" class="headerlink" title="过滤器（Filter）"></a>过滤器（Filter）</h2><p>过滤器是属于Web服务器的，它可以对任何请求进行拦截和处理，无论是否经过DispatcherServlet分发。过滤器是基于回调函数的，需要实现javax.servlet.Filter接口，并重写doFilter()方法。过滤器可以修改请求和响应对象，甚至可以替换它们。过滤器需要在web.xml中配置，或者使用@WebFilter注解。</p>
 <p>过滤器通常用于处理请求内容和视图内容，例如多部分表单和GZIP压缩等。这通常表现在需要将过滤器映射到某些内容类型（例如图片）或者所有请求上。</p>
 <h3 id="过滤器的使用方法"><a href="#过滤器的使用方法" class="headerlink" title="过滤器的使用方法"></a>过滤器的使用方法</h3><p>要使用过滤器，我们需要做以下几步：</p>
@@ -199,7 +199,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/07/20/Spring-Boot%E4%B8%AD%E8%BF%87%E6%BB%A4%E5%99%A8%EF%BC%8C%E6%8B%A6%E6%88%AA%E5%99%A8%E5%92%8C%E6%8E%A7%E5%88%B6%E5%99%A8%E9%80%9A%E7%9F%A5%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/" data-id="clkb01but0006aki7hgc62wnr" data-title="Spring Boot中过滤器，拦截器和控制器通知的区别和使用场景" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/07/20/Spring-Boot%E4%B8%AD%E8%BF%87%E6%BB%A4%E5%99%A8%EF%BC%8C%E6%8B%A6%E6%88%AA%E5%99%A8%E5%92%8C%E6%8E%A7%E5%88%B6%E5%99%A8%E9%80%9A%E7%9F%A5%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/" data-id="clkb04bds0005v8i73v12csvl" data-title="Spring Boot中过滤器（Filter），拦截器（Interceptor）和控制器通知（ControllerAdvice）的区别和使用场景" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -273,7 +273,7 @@
       <ul>
         
           <li>
-            <a href="/2023/07/20/Spring-Boot%E4%B8%AD%E8%BF%87%E6%BB%A4%E5%99%A8%EF%BC%8C%E6%8B%A6%E6%88%AA%E5%99%A8%E5%92%8C%E6%8E%A7%E5%88%B6%E5%99%A8%E9%80%9A%E7%9F%A5%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/">Spring Boot中过滤器，拦截器和控制器通知的区别和使用场景</a>
+            <a href="/2023/07/20/Spring-Boot%E4%B8%AD%E8%BF%87%E6%BB%A4%E5%99%A8%EF%BC%8C%E6%8B%A6%E6%88%AA%E5%99%A8%E5%92%8C%E6%8E%A7%E5%88%B6%E5%99%A8%E9%80%9A%E7%9F%A5%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/">Spring Boot中过滤器（Filter），拦截器（Interceptor）和控制器通知（ControllerAdvice）的区别和使用场景</a>
           </li>
         
           <li>
